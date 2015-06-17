@@ -1,7 +1,31 @@
 
 angular.module('eventsApp', [ 'ionic',
                               'eventsApp.controllers',
-                              'eventsApp.services'])
+                              'eventsApp.services',
+                              'satellizer'])
+
+.config(function($authProvider){
+  var cfg = {
+    popupOptions: {
+      location: 'no',
+      toolbar: 'no',
+      width: window.screen.width,
+      height: window.screen.height
+    }
+  };
+
+  $authProvider.baseUrl = 'http://192.168.0.100:8000';
+  $authProvider.withCredentials = false;
+
+  if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+    $authProvider.platform   = 'mobile';
+    cfg.redirectUri          = 'http://localhost/';
+  }
+
+  $authProvider.twitter(angular.extend({}, cfg,{
+    url: '/auth/twitter'
+  }));
+})
 
 .config(function($stateProvider, $urlRouterProvider) {
 
