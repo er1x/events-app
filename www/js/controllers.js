@@ -1,10 +1,10 @@
 angular.module('eventsApp.controllers', [])
 
-.controller('LoginCtrl', function($scope, $auth, $location){
+.controller('LoginCtrl', function($scope, $auth, $state){
   $scope.authenticate = function() {
     $auth.authenticate('twitter')
          .then(function(){
-           $location.path('/list');
+           $state.go('tab.list');
          })
          .catch(function(err){
             console.log(err);
@@ -12,9 +12,9 @@ angular.module('eventsApp.controllers', [])
   };
 })
 
-.controller('ListCtrl', function($scope, EventsService, $auth, $location) {
+.controller('ListCtrl', function($scope, EventsService, $auth) {
   if (!$auth.isAuthenticated()) {
-    $location.path('/login');
+    $state.go('login');
   } else {
     EventsService.all()
     .success(function(events){
@@ -26,8 +26,9 @@ angular.module('eventsApp.controllers', [])
   }
 })
 
-.controller('AccountCtrl', function($scope, $auth) {
+.controller('AccountCtrl', function($scope, $auth, $state) {
   $scope.logout = function() {
     $auth.logout();
+    $state.go('login');
   };
 });

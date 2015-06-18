@@ -11,20 +11,20 @@ angular.module('eventsApp', [ 'ionic',
       toolbar: 'no',
       width: window.screen.width,
       height: window.screen.height
-    }
+    },
+    url: '/auth/twitter'
   };
 
   $authProvider.baseUrl = 'http://192.168.0.100:8000';
-  $authProvider.withCredentials = false;
 
   if (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
     $authProvider.platform   = 'mobile';
-    cfg.redirectUri          = 'http://localhost/';
+    cfg.redirectUri          = 'http://127.0.0.1/';
+  } else {
+    $authProvider.withCredentials = false;
   }
 
-  $authProvider.twitter(angular.extend({}, cfg,{
-    url: '/auth/twitter'
-  }));
+  $authProvider.twitter(cfg);
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
