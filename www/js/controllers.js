@@ -12,7 +12,7 @@ angular.module('eventsApp.controllers', [])
   };
 })
 
-.controller('ListCtrl', function($scope, EventsService, $auth) {
+.controller('ListCtrl', function($scope, EventsService, $auth, $state) {
   if (!$auth.isAuthenticated()) {
     $state.go('login');
   } else {
